@@ -22,6 +22,10 @@ include '../components/header.php';
                 strtotime("$year-01-01") - date('w', strtotime("$year-01-01")) * 86400,
                 strtotime("$year-12-31")
             );
+            // $eventos = Db::getEventosFromPeriod(
+            //     strtotime("$year-01-01") - date('w', strtotime("$year-01-01")) * 86400,
+            //     strtotime("$year-12-31")
+            // );
             $allEvents = array_merge($eventos, $holidays);
             include './year_grid_view.php';
         }

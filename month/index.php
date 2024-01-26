@@ -16,11 +16,20 @@ include '../components/header.php';
                 strtotime("$year-$month-31")
             );
             $allEvents = array_merge($eventos, $holidays);
+            $eventos = Db::getEventosFromPeriod(
+                strtotime("$year-$month-01"),
+                strtotime("$year-$month-31")
+            );
+            $allEvents = array_merge($eventos, $holidays);
             include './month_list_view.php';
         } else {
             $holidays = Helpers::getHolidays(
                 strtotime("$year-$month-01") - date('w', strtotime("$year-01-01")) * 86400,
-                strtotime("$year-" . ($month + 1) . "-01")
+                strtotime("$year-" . ($month + 1) . "-31")
+            );
+            $eventos = Db::getEventosFromPeriod(
+                strtotime("$year-$month-01") - date('w', strtotime("$year-01-01")) * 86400,
+                strtotime("$year-" . ($month + 1) . "-31")
             );
             $allEvents = array_merge($eventos, $holidays);
             include './month_grid_view.php';

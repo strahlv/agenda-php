@@ -1,11 +1,12 @@
 <?php
 
 require_once '../Evento.php';
+require_once '../Db.php';
 require_once '../helpers.php';
 
 // CONFIG
 session_start();
-// session_destroy();
+session_destroy();
 
 date_default_timezone_set('America/Bahia');
 
@@ -24,7 +25,8 @@ $month = isset($_GET['m']) ? $_GET['m'] : date('n');
 
 // DELETE
 if (isset($_GET['delete'])) {
-    unset($_SESSION['eventos'][$_GET['delete']]);
+    // unset($_SESSION['eventos'][$_GET['delete']]);
+    Db::destroyEvento($_GET['delete']);
     header("Location: /month?display=list&y=$year&m=$month");
 }
 
@@ -36,9 +38,7 @@ if (isset($_GET['update']) && isset($_POST['titulo'])) {
     // CREATE
     if (isset($_POST['titulo'])) {
         $novoEvento = new Evento($_SESSION['last_id'], $_POST['titulo'], strtotime($_POST['data']));
-        $_SESSION['eventos'][$_SESSION['last_id']] = $novoEvento;
-
-        $_SESSION['last_id'] += 1;
+        Db::storeEvento($novoEvento);
         $month = date('n', $novoEvento->data);
         header("Location: /month?display=$display&y=$year&m=$month");
     }
