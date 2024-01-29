@@ -49,13 +49,18 @@ class Db
         $events = $res->fetchAll(PDO::FETCH_CLASS);
         $arr = [];
         foreach ($events as $event) {
-            array_push($arr, new Evento($event->id, $event->titulo, $event->data));
+            $arr[] = new Evento($event->id, $event->titulo, $event->data, $event->feriado);
         }
         return $arr;
     }
 
     public static function destroyEvento(int $id)
     {
-        self::getInstance()->query("DELETE FROM evento WHERE 'id' = $id");
+        self::getInstance()->query("DELETE FROM evento WHERE id = $id");
+    }
+
+    public static function updateEvento(int $id, Evento $evento)
+    {
+        self::getInstance()->query("UPDATE evento SET titulo = \"$evento->titulo\" WHERE id = $id");
     }
 }

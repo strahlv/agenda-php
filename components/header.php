@@ -25,22 +25,19 @@ $month = isset($_GET['m']) ? $_GET['m'] : date('n');
 
 // DELETE
 if (isset($_GET['delete'])) {
-    // unset($_SESSION['eventos'][$_GET['delete']]);
     Db::destroyEvento($_GET['delete']);
-    header("Location: /month?display=list&y=$year&m=$month");
 }
 
 // UPDATE
 if (isset($_GET['update']) && isset($_POST['titulo'])) {
-    $_SESSION['eventos'][$_GET['update']]->titulo = $_POST['titulo'];
-    header("Location: /month?display=list&y=$year&m=$month");
+    Db::updateEvento($_GET['update'], new Evento(-1, $_POST['titulo'], time(), false));
 } else {
     // CREATE
     if (isset($_POST['titulo'])) {
-        $novoEvento = new Evento($_SESSION['last_id'], $_POST['titulo'], strtotime($_POST['data']));
+        $novoEvento = new Evento($_SESSION['last_id'], $_POST['titulo'], strtotime($_POST['data']), false);
         Db::storeEvento($novoEvento);
         $month = date('n', $novoEvento->data);
-        header("Location: /month?display=$display&y=$year&m=$month");
+        // header("Location: /month?display=$display&y=$year&m=$month");
     }
 }
 

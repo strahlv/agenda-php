@@ -20,7 +20,7 @@
         });
 
         for ($i = 1; $i < 13; $i++) {
-            Helpers::renderEventsFromMonth($allEvents, $i, $year);
+            Helpers::renderEventsFromMonth($allEvents, $i, $year, 'year');
         }
     } else {
         echo 'Ainda não há eventos.';

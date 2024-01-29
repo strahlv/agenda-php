@@ -21,7 +21,7 @@
             return $a->data - $b->data;
         });
 
-        Helpers::renderEventsFromMonth($allEvents, $month, $year);
+        Helpers::renderEventsFromMonth($allEvents, $month, $year, 'month');
     } else {
         echo 'Ainda não há eventos.';
     }

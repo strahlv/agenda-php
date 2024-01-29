@@ -11,21 +11,29 @@ include '../components/header.php';
     <section id="right">
         <?php
         if ($display == 'list') {
+            $calendarStart = strtotime("$year-01-01");
+            $calendarEnd = strtotime("$year-12-31");
             $holidays = Helpers::getHolidays(
-                strtotime("$year-01-01"),
-                strtotime("$year-12-31")
+                $calendarStart,
+                $calendarEnd
+            );
+            $eventos = Db::getEventosFromPeriod(
+                $calendarStart,
+                $calendarEnd
             );
             $allEvents = array_merge($eventos, $holidays);
             include './year_list_view.php';
         } else {
+            $calendarStart = strtotime("$year-01-01") - date('w', strtotime("$year-01-01")) * 86400;
+            $calendarEnd = strtotime(($year + 1) . "-01-31");
             $holidays = Helpers::getHolidays(
-                strtotime("$year-01-01") - date('w', strtotime("$year-01-01")) * 86400,
-                strtotime("$year-12-31")
+                $calendarStart,
+                $calendarEnd
             );
-            // $eventos = Db::getEventosFromPeriod(
-            //     strtotime("$year-01-01") - date('w', strtotime("$year-01-01")) * 86400,
-            //     strtotime("$year-12-31")
-            // );
+            $eventos = Db::getEventosFromPeriod(
+                $calendarStart,
+                $calendarEnd
+            );
             $allEvents = array_merge($eventos, $holidays);
             include './year_grid_view.php';
         }

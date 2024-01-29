@@ -15,7 +15,6 @@ include '../components/header.php';
                 strtotime("$year-$month-01"),
                 strtotime("$year-$month-31")
             );
-            $allEvents = array_merge($eventos, $holidays);
             $eventos = Db::getEventosFromPeriod(
                 strtotime("$year-$month-01"),
                 strtotime("$year-$month-31")
